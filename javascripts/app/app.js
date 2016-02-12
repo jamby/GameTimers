@@ -19,28 +19,24 @@ class App extends React.Component {
     var recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.onresult = (event) => { 
+    recognition.onresult = (event) => {
       var results = this.state.results;
       var transcripts = []
       _.each(event.results, function(speechresult, v) {
-        // console.log(k);
-        // if(_result.transcript) 
-        //   transcripts.push(_result.transcript)
-        _.each(event.results, function(sprs, v){
-          console.log(sprs);
-          if(sprs.transcript) 
+        _.each(speechresult, function(sprs, v){
+          if(sprs.transcript)
             transcripts.push(sprs.transcript)
         });
       });
       console.log(transcripts);
       results << event.results;
       this.setState({results});
-      console.log(event.results);
+      // console.log(event.results);
     }
     recognition.start();
     this.setState({ voiceRecognition: recognition });
   }
-  
+
   render() {
     return (
       <div>
