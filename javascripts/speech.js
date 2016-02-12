@@ -1,6 +1,7 @@
-let Speech = {
+var Speech = {
 
   componentDidMount() {
+    console.log("Mounted")
     if (window.webkitSpeechRecognition) {
       this.recognition = new webkitSpeechRecognition();
       this.recognition.onresult = this.onResult;
@@ -17,6 +18,7 @@ let Speech = {
 
   onResult(e) {
     let transcript = this.getLastTranscript(e.results);
+    console.log(e.results)
     this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
   },
 
