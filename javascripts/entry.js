@@ -1,4 +1,5 @@
 require('../sass/main.sass');
+var _  = require('underscore');
 
 'use strict';
 
@@ -12,6 +13,7 @@ import ReactDOM from "react-dom";
 // injectTapEventPlugin();
 
 import AppBar from 'material-ui/lib/app-bar';
+
 const AppBarExampleIcon = () => (
   <AppBar
     title="Title"

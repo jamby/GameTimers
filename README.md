@@ -31,3 +31,10 @@ We need to get some kind of backend for this.
 
 https://medium.com/@Agro/developing-desktop-applications-with-electron-and-react-40d117d97564#.za0uzzyyr  
 The above is a little out of date, because it is using an older version of React.
+
+## Tech List
+
+- React
+- MaterialUI
+- Underscore
+- Electron
