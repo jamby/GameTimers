@@ -17,6 +17,7 @@ import ReactDOM from "react-dom";
 // injectTapEventPlugin();
 
 import AppBar from 'material-ui/lib/app-bar';
+import App from './app/app'
 //
 // class App = React.createClass({
 //   mixins: [],
@@ -37,6 +38,7 @@ import AppBar from 'material-ui/lib/app-bar';
 //
 //   }
 // });
+{/*<Speech text="Welcome to react speech" />*/}
 
 const AppBarExampleIcon = () => (
   <AppBar
@@ -44,10 +46,4 @@ const AppBarExampleIcon = () => (
     iconClassNameRight="muidocs-icon-navigation-expand-more" />
 );
 
-ReactDOM.render((
-  <div className="myDiv">
-    Hello Electron!
-    <AppBarExampleIcon></AppBarExampleIcon>
-    {/*<Speech text="Welcome to react speech" />*/}
-  </div>
-), document.getElementById('content'));
+ReactDOM.render((<App />), document.getElementById('content'));
