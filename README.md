@@ -2,7 +2,9 @@
 
 ## Install
 
-First install the npm modules to run certain things
+First make sure you have latest versions of npm and node.
+
+Then install the npm modules to run certain things
 
 ```
 npm install
