@@ -22,6 +22,18 @@ Then to run Electron
 npm start
 ```
 
+## Potential problems
+
+Apparently Google only allows 50 things a day for the `webkitSpeechRecognition` so we may need to find another service for this.
+
+- https://groups.google.com/a/chromium.org/forum/#!topic/chromium-html5/s2XhT-Y5qAc
+
+Unsure on if this is going to be a problem?
+
+Currently I've changed it to restart it `onend` so we never lose the microphone, but that seems odd.
+
+Found another potential speech-to-text: http://stephenwalther.com/archive/2015/01/05/using-html5-speech-recognition-and-text-to-speech
+
 ## To do
 
 We need to get some kind of backend for this.
