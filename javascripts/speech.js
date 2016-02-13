@@ -9,11 +9,23 @@ module.exports = {
       var context = this;
       this.recognition.onresult = function(e) {
         var transcript = context.getLastTranscript(e.results);
-        this.getSpeechConfig().forEach(context.findMatch.bind(this, transcript));        
+        context.getSpeechConfig().forEach(context.findMatch.bind(context, transcript));
       };
       this.recognition.continuous = true;
       this.recognition.start();
     }
+  },
+
+  getSpeechConfig() {
+    return [{
+      word: 'click',
+      action: 'handleClick',
+      feedback: 'clicking'
+    }];
+  },
+
+  handleClick() {
+    console.log("Dookie");
   },
 
   componentWillUnmount() {
@@ -27,6 +39,7 @@ module.exports = {
   },
 
   findMatch(transcript, config) {
+    var context = this;
     if (transcript.indexOf(config.word) > -1) {
       this.runAction(config.action);
       this.runFeedback(config.feedback);
