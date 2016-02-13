@@ -3,13 +3,8 @@
 import React from "react";
 import reactMixin from "react-mixin";
 import autobind from "autobind-decorator";
-import MixinDecorator from 'react-mixin-decorator';
-import Speech from "../speech";
 var _ = require('underscore');
 
-const SpeechDecorator = MixinDecorator('SpeechDecorator', Speech);
-
-@SpeechDecorator
 @autobind
 class App extends React.Component {
   constructor() {
@@ -18,40 +13,79 @@ class App extends React.Component {
     // this.setState({ voiceRecognition: null, results: [] });
   }
 
-  // componentWillMount() {
-  //
-  // }
+  componentDidMount() {
+    if (window.webkitSpeechRecognition) {
+      this.startWebkitSpeechRecognition();
+      // this.recognition = new webkitSpeechRecognition();
+      // this.recognition.onresult = (e) => {
+      //   var transcript = this.getLastTranscript(e.results);
+      //   console.log(e.results);
+      //   this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
+      // };
+      // this.recognition.continuous = true;
+      // this.recognition.start();
+      // this.recognition.onend = function() {
+      //   console.log("Speech recognition has ended.");
+      // }
+    }
+  }
 
-  // componentDidMount() {
-  //   // var recognition = new webkitSpeechRecognition();
-  //   // recognition.continuous = true;
-  //   // // recognition.interimResults = true;
-  //   // recognition.onresult = (event) => {
-  //   //   var results = this.state.results;
-  //   //   var transcripts = []
-  //   //   _.each(event.results, function(speechresult, v) {
-  //   //     _.each(speechresult, function(sprs, v){
-  //   //       if(sprs.transcript)
-  //   //         transcripts.push(sprs.transcript)
-  //   //     });
-  //   //   });
-  //   //   console.log(transcripts);
-  //   //   results << event.results;
-  //   //   this.setState({results});
-  //   //   // console.log(event.results);
-  //   // }
-  //   // recognition.start();
-  //   // this.setState({ voiceRecognition: recognition });
-  // }
-  testButton() {
-    console.log(this);
+  componentWillUnmount() {
+    if (this.recognition) {
+      this.recognition.stop();
+    }
+  }
+
+  startWebkitSpeechRecognition() {
+    this.recognition = new webkitSpeechRecognition();
+    this.recognition.onresult = (e) => {
+      var transcript = this.getLastTranscript(e.results);
+      console.log(e.results);
+      this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
+    };
+    this.recognition.continuous = true;
+    this.recognition.start();
+    this.recognition.onend = () => {
+      console.log("Speech recognition has ended.");
+      this.startWebkitSpeechRecognition();
+      console.log("Speech recognition should start.");
+    }
+  }
+
+  // Gets last Transcript of the Speech
+  getLastTranscript(results) {
+    return results[results.length - 1][0].transcript;
+  }
+
+
+  // Finds a match of what we have in getSpeechConfig
+  findMatch(transcript, config) {
+    if (transcript.indexOf(config.word) > -1) {
+      this.runAction(config.action);
+      this.runFeedback(config.feedback);
+    }
+  }
+
+  // Runs the action inside getSpeechConfig
+  runAction(action) {
+    if (typeof this[action] === 'function') {
+      this[action]();
+    }
+  }
+
+  // Runs the feedback (voice) from inside getSpeechConfig
+  runFeedback(feedback) {
+    if (feedback && window.SpeechSynthesisUtterance) {
+      var message = new SpeechSynthesisUtterance(feedback);
+      speechSynthesis.speak(message);
+    }
   }
 
   getSpeechConfig() {
     return [{
       word: 'click',
       action: 'handleClick',
-      feedback: 'clicking'
+      feedback: 'Dookie'
     }];
   }
 
@@ -63,12 +97,10 @@ class App extends React.Component {
     return (
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
-        <a className="waves-effect waves-light btn" onClick={this.testButton}>Stuff</a>
+        <a className="waves-effect waves-light btn">Stuff</a>
       </div>
     );
   }
 }
-
-// reactMixin.onClass(App, Speech);
 
 export default App;
