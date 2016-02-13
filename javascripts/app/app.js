@@ -1,10 +1,16 @@
 'use strict';
 
 import React from "react";
-import ReactMixin from "react-mixin";
-var speech = require('../speech');
+import reactMixin from "react-mixin";
+import autobind from "autobind-decorator";
+import MixinDecorator from 'react-mixin-decorator';
+import Speech from "../speech";
 var _ = require('underscore');
 
+const SpeechDecorator = MixinDecorator('SpeechDecorator', Speech);
+
+@SpeechDecorator
+@autobind
 class App extends React.Component {
   constructor() {
     super();
@@ -37,6 +43,9 @@ class App extends React.Component {
   //   // recognition.start();
   //   // this.setState({ voiceRecognition: recognition });
   // }
+  testButton() {
+    console.log(this);
+  }
 
   getSpeechConfig() {
     return [{
@@ -54,11 +63,12 @@ class App extends React.Component {
     return (
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
+        <a className="waves-effect waves-light btn" onClick={this.testButton}>Stuff</a>
       </div>
     );
   }
 }
 
-ReactMixin.onClass(App, speech);
+// reactMixin.onClass(App, Speech);
 
 export default App;

@@ -1,7 +1,9 @@
-var Speech = {
+import React from "react";
+import autobind from "autobind-decorator";
+
+module.exports = {
 
   componentDidMount() {
-    console.log("Mounted")
     if (window.webkitSpeechRecognition) {
       this.recognition = new webkitSpeechRecognition();
       this.recognition.onresult = this.onResult;
@@ -17,7 +19,8 @@ var Speech = {
   },
 
   onResult(e) {
-    let transcript = this.getLastTranscript(e.results);
+    console.log(this);
+    var transcript = this.getLastTranscript(e.results);
     console.log(e.results)
     this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
   },
@@ -41,11 +44,9 @@ var Speech = {
 
   runFeedback(feedback) {
     if (feedback && window.SpeechSynthesisUtterance) {
-      let message = new SpeechSynthesisUtterance(feedback);
+      var message = new SpeechSynthesisUtterance(feedback);
       speechSynthesis.speak(message);
     }
   }
 
 };
-
-export default Speech;
