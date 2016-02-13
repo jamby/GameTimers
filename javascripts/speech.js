@@ -6,7 +6,11 @@ module.exports = {
   componentDidMount() {
     if (window.webkitSpeechRecognition) {
       this.recognition = new webkitSpeechRecognition();
-      this.recognition.onresult = this.onResult;
+      var context = this;
+      this.recognition.onresult = function(e) {
+        var transcript = context.getLastTranscript(e.results);
+        this.getSpeechConfig().forEach(context.findMatch.bind(this, transcript));        
+      };
       this.recognition.continuous = true;
       this.recognition.start();
     }
@@ -16,13 +20,6 @@ module.exports = {
     if (this.recognition) {
       this.recognition.stop();
     }
-  },
-
-  onResult(e) {
-    console.log(this);
-    var transcript = this.getLastTranscript(e.results);
-    console.log(e.results)
-    this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
   },
 
   getLastTranscript(results) {
