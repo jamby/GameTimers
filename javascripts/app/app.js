@@ -63,15 +63,15 @@ class App extends React.Component {
   // Finds a match of what we have in getSpeechConfig
   findMatch(transcript, config) {
     if (transcript.indexOf(config.word) > -1) {
-      this.runAction(config.action);
-      this.runFeedback(config.feedback);
+      this.runAction(config.action, config.time);
+      // this.runFeedback(config.feedback);
     }
   }
 
   // Runs the action inside getSpeechConfig
-  runAction(action) {
+  runAction(action, time) {
     if (typeof this[action] === 'function') {
-      this[action]();
+      this[action](time);
     }
   }
 
@@ -84,21 +84,29 @@ class App extends React.Component {
   }
 
   getSpeechConfig() {
-    return [{
-      word: 'click',
-      action: 'handleClick',
-      feedback: 'Dookie'
-    }];
+    return [
+      {
+        word: 'flash', // LoL
+        action: 'addTimer',
+        time: 300000
+        // feedback: 'Dookie'
+      },
+      {
+        word: 'blink', // Dota 2
+        action: 'addTimer',
+        time: 12000
+      }
+    ];
   }
+  // 
+  // handleClick() {
+  //   console.log("Dookie");
+  // }
 
-  handleClick() {
-    console.log("Dookie");
-  }
-
-  addTimer() {
+  addTimer(time) {
     var timers = this.state.timers;
     var currentTime = new Date().getTime();
-    var newTimer = { initialTimeRemaining: 10000, completeCallback: this.removeTimer, createdAt: currentTime };
+    var newTimer = { initialTimeRemaining: time, completeCallback: this.removeTimer, createdAt: currentTime };
     timers.push(newTimer);
     this.setState({ timers: timers });
   }
@@ -128,7 +136,7 @@ class App extends React.Component {
     return (
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
-        <a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>
+        {/*{<a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>}*/}
         {this.state.timers.map(this.renderTimer)}
       </div>
     );
