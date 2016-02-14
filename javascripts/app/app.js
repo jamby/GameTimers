@@ -5,7 +5,7 @@ import reactMixin from "react-mixin";
 import autobind from "autobind-decorator";
 var _ = require('underscore');
 
-import Timer from '../timers/timer';
+import Timer from '../timer/timer';
 
 @autobind
 class App extends React.Component {
