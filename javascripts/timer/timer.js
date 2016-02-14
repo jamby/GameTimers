@@ -45,8 +45,6 @@ class Timer extends React.Component {
 
     var timeRemaining = Math.max(this.state.timeRemaining - dt, 0);
     var countdownComplete = (this.state.prevTime && timeRemaining <= 0);
-    console.log("countdownComplete is");
-    console.log(countdownComplete);
 
     if (this.state.timeoutId) { clearTimeout(this.state.timeoutId); }
     this.setState({
@@ -56,7 +54,6 @@ class Timer extends React.Component {
     });
 
     if (countdownComplete) {
-      console.log("inside countdownComplete");
       if (this.props.completeCallback) { this.props.completeCallback(this.props.createdAt); }
       return;
     }
