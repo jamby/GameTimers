@@ -5,12 +5,14 @@ import reactMixin from "react-mixin";
 import autobind from "autobind-decorator";
 var _ = require('underscore');
 
+import Timer from '../timers/timer';
+
 @autobind
 class App extends React.Component {
   constructor() {
     super();
     // getInitialState
-    // this.setState({ voiceRecognition: null, results: [] });
+    this.state = { timers: [] };
   }
 
   componentDidMount() {
@@ -93,11 +95,41 @@ class App extends React.Component {
     console.log("Dookie");
   }
 
+  addTimer() {
+    var timers = this.state.timers;
+    var currentTime = new Date().getTime();
+    var newTimer = { initialTimeRemaining: 10000, completeCallback: this.removeTimer, createdAt: currentTime };
+    timers.push(newTimer);
+    this.setState({ timers: timers });
+  }
+
+  removeTimer(timerCreatedAt) {
+    var timers = this.state.timers;
+    var searchTimer = _.find(timers, function(timer) { return timerCreatedAt == timer.createdAt; });
+    var i = timers.indexOf(searchTimer);
+    if (i != -1) {
+      timers.splice(i, 1);
+    }
+    this.setState({ timers: timers });
+  }
+
+  renderTimer(timer) {
+    return (
+      <Timer
+        key={timer.createdAt}
+        initialTimeRemaining={timer.initialTimeRemaining}
+        completeCallback={timer.completeCallback}
+        createdAt={timer.createdAt}
+      />
+    );
+  }
+
   render() {
     return (
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
-        <a className="waves-effect waves-light btn">Stuff</a>
+        <a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>
+        {this.state.timers.map(this.renderTimer)}
       </div>
     );
   }
