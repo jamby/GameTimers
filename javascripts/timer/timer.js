@@ -84,15 +84,22 @@ class Timer extends React.Component {
     return hours + ':' + minutes + ':' + seconds;
   }
 
+  removeTimer() {
+    this.props.completeCallback(this.props.createdAt);
+  }
+
   render() {
     var timeRemaining = this.state.timeRemaining;
 
     return (
       <div className="row">
-        <div className="col s12 m6">
+        <div className="col s12 m3">
           <div className="card blue-grey lighten-5">
             <div className="card-content black-text">
               {this.getFormattedTime(timeRemaining)}
+              <span className="right">
+                <i className="fa fa-times fa-lg" style={{ cursor: "pointer "}} onClick={this.removeTimer}/>
+              </span>
             </div>
           </div>
         </div>
