@@ -104,6 +104,10 @@ class App extends React.Component {
   // }
 
   addTimer(time) {
+    // The below code is only while we have the button for adding a timer in.
+    // Just for quick testing purposes.
+    if (time.target)
+      time = 10000;
     var timers = this.state.timers;
     var currentTime = new Date().getTime();
     var newTimer = { initialTimeRemaining: time, completeCallback: this.removeTimer, createdAt: currentTime };
@@ -136,7 +140,7 @@ class App extends React.Component {
     return (
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
-        {/*{<a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>}*/}
+        <a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>
         {this.state.timers.map(this.renderTimer)}
       </div>
     );
