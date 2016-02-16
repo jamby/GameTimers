@@ -15,29 +15,10 @@ import ReactDOM from "react-dom";
 // // https://github.com/zilverline/react-tap-event-plugin
 // injectTapEventPlugin();
 
-import AppBar from 'material-ui/lib/app-bar';
-import App from './app/app'
-//
-// class App = React.createClass({
-//   mixins: [],
-//   componentWillUnmount() {
-//
-//   },
-//   getSpeechConfig() {
-//     return [{
-//       word: 'click',
-//       action: 'handleClick',
-//       feedback: 'clicking'
-//     }];
-//   },
-//   handleClick() {
-//     console.log('clicked');
-//   },
-//   render() {
-//
-//   }
-// });
-{/*<Speech text="Welcome to react speech" />*/}
+import AppBar from "material-ui/lib/app-bar";
+import App from "./components/App"
+import configureStore from "./store/store"
+import { Provider } from "react-redux"
 
 const AppBarExampleIcon = () => (
   <AppBar
@@ -45,4 +26,11 @@ const AppBarExampleIcon = () => (
     iconClassNameRight="muidocs-icon-navigation-expand-more" />
 );
 
-ReactDOM.render((<App />), document.getElementById('content'));
+let store = configureStore();
+
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>
+  ), document.getElementById('content')
+);

@@ -3,21 +3,24 @@
 import React from "react";
 import reactMixin from "react-mixin";
 import autobind from "autobind-decorator";
-var _ = require('underscore');
+var _ = require("underscore");
 
-import Timer from '../timer/timer';
+import Timer from "./Timer";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
+import actions from '../actions/actions'
 
 @autobind
 class App extends React.Component {
-  constructor() {
-    super();
-    // getInitialState
-    this.state = { timers: [] };
-  }
+  // constructor() {
+  //   super();
+  //   // getInitialState
+  //   this.state = { timers: [] };
+  // }
 
   componentDidMount() {
     if (window.webkitSpeechRecognition) {
-      this.startWebkitSpeechRecognition();
+      // this.startWebkitSpeechRecognition();
       // this.recognition = new webkitSpeechRecognition();
       // this.recognition.onresult = (e) => {
       //   var transcript = this.getLastTranscript(e.results);
@@ -108,21 +111,12 @@ class App extends React.Component {
     // Just for quick testing purposes.
     if (time.target)
       time = 10000;
-    var timers = this.state.timers;
-    var currentTime = new Date().getTime();
-    var newTimer = { initialTimeRemaining: time, completeCallback: this.removeTimer, createdAt: currentTime };
-    timers.push(newTimer);
-    this.setState({ timers: timers });
+
+    this.props.actions.addTimer(time);
   }
 
   removeTimer(timerCreatedAt) {
-    var timers = this.state.timers;
-    var searchTimer = _.find(timers, function(timer) { return timerCreatedAt == timer.createdAt; });
-    var i = timers.indexOf(searchTimer);
-    if (i != -1) {
-      timers.splice(i, 1);
-    }
-    this.setState({ timers: timers });
+    this.props.actions.removeTimer(timerCreatedAt);
   }
 
   renderTimer(timer) {
@@ -130,7 +124,7 @@ class App extends React.Component {
       <Timer
         key={timer.createdAt}
         initialTimeRemaining={timer.initialTimeRemaining}
-        completeCallback={timer.completeCallback}
+        completeCallback={this.props.actions.removeTimer}
         createdAt={timer.createdAt}
       />
     );
@@ -141,10 +135,20 @@ class App extends React.Component {
       <div>
         <div style={{color: 'white'}}>Hello world!</div>
         <a className="waves-effect waves-light btn" onClick={this.addTimer}>Add Timer</a>
-        {this.state.timers.map(this.renderTimer)}
+        {this.props.timers.map(this.renderTimer)}
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return state
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
