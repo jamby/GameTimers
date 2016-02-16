@@ -6,6 +6,7 @@ var _ = require('underscore');
 
 @autobind
 class Timer extends React.Component {
+
   constructor() {
     super();
 
@@ -103,6 +104,7 @@ class Timer extends React.Component {
       </div>
     );
   }
+
 }
 
 Timer.propTypes = {

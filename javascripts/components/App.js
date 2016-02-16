@@ -12,26 +12,10 @@ import actions from '../actions/actions'
 
 @autobind
 class App extends React.Component {
-  // constructor() {
-  //   super();
-  //   // getInitialState
-  //   this.state = { timers: [] };
-  // }
 
   componentDidMount() {
     if (window.webkitSpeechRecognition) {
-      // this.startWebkitSpeechRecognition();
-      // this.recognition = new webkitSpeechRecognition();
-      // this.recognition.onresult = (e) => {
-      //   var transcript = this.getLastTranscript(e.results);
-      //   console.log(e.results);
-      //   this.getSpeechConfig().forEach(this.findMatch.bind(this, transcript));
-      // };
-      // this.recognition.continuous = true;
-      // this.recognition.start();
-      // this.recognition.onend = function() {
-      //   console.log("Speech recognition has ended.");
-      // }
+      this.startWebkitSpeechRecognition();
     }
   }
 
@@ -139,6 +123,7 @@ class App extends React.Component {
       </div>
     );
   }
+
 }
 
 function mapStateToProps(state) {
