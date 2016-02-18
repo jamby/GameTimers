@@ -48,6 +48,7 @@ We need to get some kind of backend for this.
 ## Tech List
 
 - React
-- MaterialUI
+- MaterialUI : http://www.material-ui.com/#/components/
 - Underscore
 - Electron
+- Webkit Voice Recognition : http://shapeshed.com/html5-speech-recognition-api/
